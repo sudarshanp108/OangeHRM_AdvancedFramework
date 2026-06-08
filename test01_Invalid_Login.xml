@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite">
+    <test verbose="2" preserve-order="true" name="C:/Users/patil/IdeaProjects/OangeHRM_AdvancedFramework">
+        <classes>
+            <class name="com.orangehrmlive.Tests.TestLoginPage.Test01_OHR_Invalid_Login">
+                <methods>
+                    <include name="LGN_001_test_negative_login"/>
+                    <include name="LGN_002_test_negative_login"/>
+                    <include name="LGN_003_test_negative_login"/>
+                    <include name="LGN_004_test_negative_login"/>
+                </methods></class></classes></test></suite>
