@@ -1,10 +1,13 @@
 package com.orangehrmlive.Pages.POM;
 
 import com.orangehrmlive.Base.CommonToAllPage;
+import com.orangehrmlive.Driver.DriverManager;
+import com.orangehrmlive.Utils.PropertiesReader;
 import com.orangehrmlive.Utils.WaitHelpers;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 
 import java.util.List;
 
@@ -51,7 +54,6 @@ public class AdminPage extends CommonToAllPage {
 
             // Single-line text output for the current row
             StringBuilder rowData = new StringBuilder();
-//            rowData.append("Row ").append(i + 1).append(": [ ");
             rowData.append("Row ").append(i + 1).append(": [ ");
 
             for (int j = 0; j < cells.size(); j++) {
@@ -78,8 +80,8 @@ public class AdminPage extends CommonToAllPage {
     }
 
     // *********************************************************
-    // For single Row Data
-    // Approach 1
+    // For all cell Data
+    // Approach 2
     public void getRowData1() {
     // Define XPath bases using index brackets
         String first_part = "//div[@class='oxd-table-card'][";  // //div[@class="oxd-table-card"][
@@ -87,11 +89,11 @@ public class AdminPage extends CommonToAllPage {
         String third_part = "]";
 
         // Find total row count
-//        Integer row = driver.findElements(By.xpath("//div[@class='oxd-table-card']")).size();
-        Integer row = findElement(tableRows);
+        Integer row = driver.findElements(By.xpath("//div[@class='oxd-table-card']")).size();
+//        Integer row = findElement(tableRows);
         // Find column count by targeting ONLY the cells inside the first row
-//        Integer column = driver.findElements(By.xpath("//div[@class=\"oxd-table-card\"][1]/div[@role=\"row\"]/div[@role=\"cell\"]")).size();
-        Integer column = findElement(singleTableRow);
+        Integer column = driver.findElements(By.xpath("//div[@class=\"oxd-table-card\"][1]/div[@role=\"row\"]/div[@role=\"cell\"]")).size();
+//        Integer column = findElement(singleTableRow);
 
         // Iterate through rows and columns using 1-based indexing for XPath
         for (int i = 1; i <= row; i++) {
@@ -108,7 +110,7 @@ public class AdminPage extends CommonToAllPage {
 
 
     // *********************************************************
-    // Approach 2
+    // Approach 3 for getting single row data
     public void getRowData2(int rowIndex) {
         // Fetch all rows using List
         List<WebElement> rows = driver.findElements(By.xpath("//div[@class='oxd-table-card']"));
@@ -135,4 +137,52 @@ public class AdminPage extends CommonToAllPage {
 
         System.out.println(rowText.toString());
     }
+
+    // ******************************************************************
+    // Search for System Users
+    private By username = By.xpath("//form//div/input[contains(@class, 'oxd-input--active')]");
+    private By userRole = By.xpath("//div[div/label[normalize-space()='User Role']]//div[@class='oxd-select-wrapper']");
+    private By employeeName = By.xpath("//div[contains(@class, 'oxd-autocomplete-text-input--active')]//input");
+    private By status = By.xpath("//div[div/label[normalize-space()='Status']]//div[@class='oxd-select-wrapper']");
+    private By clickSearchButton = By.xpath("//button[@type='submit']");
+
+    public void searchSystemUsers(String Uname, String Ename) {
+        enterInput(username, Uname);
+        sendInput(userRole);
+        enterInput(employeeName, Ename);
+        sendInput(status);
+        clickElement(clickSearchButton);
+
+    }
+
+    // ******************************************************************
+    // Adding System Users
+    private By addNewUser = By.xpath("//button[normalize-space()= 'Add']");
+    // Adding User Details
+    private By selectUserRole = By.xpath("(//div[@class='oxd-select-text-input'])[1]");
+    private By selectStatus = By.xpath("(//div[@class='oxd-select-text-input'])[2]");
+    private By selectEmployeeName = By.xpath("//input[@placeholder='Type for hints...']");
+    private By addUsername = By.xpath("//label[text()='Username']/following::input[1]");
+    private By addPassword = By.xpath("//div[label[text()='Password']]/following-sibling::div/input"); // (//div[input[@type='password']])[1]
+    private By confirmPassword = By.xpath("//div[label[text()='Confirm Password']]/following-sibling::div/input");  // (//div[input[@type='password']])[2]
+    private By saveDetails = By.xpath("//button[@type='submit']");
+
+    public void addUserDetails() {
+        clickElement(addNewUser);
+        WaitHelpers.visibilityOfElement(selectUserRole);
+        sendInput(selectUserRole);
+//        WaitHelpers.waitJVM(2000);
+        sendInput(selectStatus);
+//        WaitHelpers.waitJVM(3000);
+        sendInput(selectEmployeeName, "a");
+//        WaitHelpers.waitJVM(3000);
+        enterInput(addUsername, "Sandy");
+//        WaitHelpers.waitJVM(3000);
+//        WaitHelpers.elementToBeClickable(addPassword);
+        enterInput(addPassword, PropertiesReader.readKey("admin_password"));
+//        WaitHelpers.waitJVM(2000);
+        enterInput(confirmPassword, PropertiesReader.readKey("admin_password"));
+        clickElement(saveDetails);
+    }
+
 }

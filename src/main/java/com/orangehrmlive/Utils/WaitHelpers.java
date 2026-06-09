@@ -1,5 +1,6 @@
 package com.orangehrmlive.Utils;
 
+import com.orangehrmlive.Driver.DriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -71,5 +72,9 @@ public class WaitHelpers {
     }
     public static WebElement visibilityOfElement(WebElement elementLocation) {
         return new WebDriverWait(getDriver(), Duration.ofSeconds(20)).until(ExpectedConditions.visibilityOf(elementLocation));
+    }
+
+    public static WebElement elementToBeClickable(By locator) {
+       return new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(20)).until(ExpectedConditions.elementToBeClickable(locator));
     }
 }

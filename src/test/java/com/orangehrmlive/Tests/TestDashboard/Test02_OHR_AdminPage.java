@@ -24,9 +24,36 @@ public class Test02_OHR_AdminPage extends CommonToAllTest {
 
 //        admin_Page.getTableData();
         admin_Page.getRowData1();
+//        admin_Page.getRowData2(2);
         assertThat(verifyAdmin).isNotEmpty().isNotBlank().isNotNull();
         Assert.assertEquals(verifyAdmin, PropertiesReader.readKey("assert_admin"));
 
+
+    }
+
+    @Test
+    public void search_unique_system_user() {
+        LoginPage loginPage = new LoginPage(DriverManager.getDriver());
+        loginPage.logintoValidCreds(PropertiesReader.readKey("ohr_username"), PropertiesReader.readKey("ohr_password"));
+
+        AdminPage admin_Page = new AdminPage(DriverManager.getDriver());
+        admin_Page.adminPage();
+
+        admin_Page.searchSystemUsers(PropertiesReader.readKey("admin_username"), PropertiesReader.readKey("employee_name"));
+
+    }
+
+    @Test
+    public void add_newuser_to_Admin() {
+        LoginPage loginPage = new LoginPage(DriverManager.getDriver());
+        loginPage.logintoValidCreds(PropertiesReader.readKey("ohr_username"), PropertiesReader.readKey("ohr_password"));
+
+        AdminPage admin_Page = new AdminPage(DriverManager.getDriver());
+        admin_Page.adminPage();
+
+        admin_Page.searchSystemUsers(PropertiesReader.readKey("admin_username"), PropertiesReader.readKey("employee_name"));
+
+        admin_Page.addUserDetails();
 
     }
 }
