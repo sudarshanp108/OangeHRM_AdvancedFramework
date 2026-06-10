@@ -156,7 +156,7 @@ public class AdminPage extends CommonToAllPage {
     }
 
     // ******************************************************************
-    // Adding System Users
+    // Adding System Users to Admin Tab
     private By addNewUser = By.xpath("//button[normalize-space()= 'Add']");
     // Adding User Details
     private By selectUserRole = By.xpath("(//div[@class='oxd-select-text-input'])[1]");
@@ -183,6 +183,23 @@ public class AdminPage extends CommonToAllPage {
 //        WaitHelpers.waitJVM(2000);
         enterInput(confirmPassword, PropertiesReader.readKey("admin_password"));
         clickElement(saveDetails);
+    }
+
+    // ******************************************************************
+    // Validating Job tab from Admin Tab
+    private By enterJobTab = By.xpath("//div/nav/ul/li[2]/span");
+    private By confirmDelete = By.xpath("//div[@class=\"orangehrm-modal-footer\"]/button[2]");
+    private By deleteStatus = By.xpath("(//i[contains(@class,'bi-trash')])[1]");
+    private By deleteSuccessMsg = By.id("oxd-toaster_1");
+
+    public String deleteEmploymentStatus() {
+        sendInput((WebElement) enterJobTab, 2);
+        clickElement(deleteStatus);
+        WaitHelpers.visibilityOfElement(confirmDelete);
+        clickElement(confirmDelete);
+        WaitHelpers.visibilityOfElement(deleteSuccessMsg);
+        return getText(deleteSuccessMsg);
+
     }
 
 }

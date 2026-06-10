@@ -56,4 +56,16 @@ public class Test02_OHR_AdminPage extends CommonToAllTest {
         admin_Page.addUserDetails();
 
     }
+
+    @Test
+    public void delete_employment_status() {
+        LoginPage loginPage = new LoginPage(DriverManager.getDriver());
+        loginPage.logintoValidCreds(PropertiesReader.readKey("ohr_username"), PropertiesReader.readKey("ohr_password"));
+
+        AdminPage admin_Page = new AdminPage(DriverManager.getDriver());
+        admin_Page.adminPage();
+
+        admin_Page.deleteEmploymentStatus();
+
+    }
 }
