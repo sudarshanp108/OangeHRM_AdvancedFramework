@@ -67,6 +67,7 @@ public class CommonToAllPage {
                 .click()
                 .sendKeys(Keys.ARROW_DOWN)
                 .sendKeys(Keys.ENTER)
+                .click()
                 .build().perform();
     }
 
@@ -82,8 +83,8 @@ public class CommonToAllPage {
                 .build().perform();
     }
 
-    public void sendInput(WebElement element, int itemIndex) {
-//        WebElement element = driver.findElement(by);
+    public void sendInput(By by, int itemIndex) {
+        WebElement element = driver.findElement(by);
         Actions actions = new Actions(driver);
         actions.moveToElement(element).click();
         for (int i = 0; i < itemIndex; i++) {

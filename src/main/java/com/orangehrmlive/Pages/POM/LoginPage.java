@@ -73,7 +73,8 @@ public class LoginPage extends CommonToAllPage {
 
     public void logintoValidCreds (String usr, String pwd) {
         openOHRURL();
-        WaitHelpers.visibilityOfElement(waitforelementpresent);
+//        WaitHelpers.visibilityOfElement(waitforelementpresent);
+        WaitHelpers.visibilityOfElement(username);
         enterInput(username, usr);
         enterInput(password, pwd);
         clickElement(loginbutton);

@@ -1,13 +1,11 @@
 package com.orangehrmlive.Pages.POM;
 
 import com.orangehrmlive.Base.CommonToAllPage;
-import com.orangehrmlive.Driver.DriverManager;
 import com.orangehrmlive.Utils.PropertiesReader;
 import com.orangehrmlive.Utils.WaitHelpers;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 
 import java.util.List;
 
@@ -151,6 +149,7 @@ public class AdminPage extends CommonToAllPage {
         sendInput(userRole);
         enterInput(employeeName, Ename);
         sendInput(status);
+        WaitHelpers.visibilityOfElement(clickSearchButton);
         clickElement(clickSearchButton);
 
     }
@@ -188,12 +187,14 @@ public class AdminPage extends CommonToAllPage {
     // ******************************************************************
     // Validating Job tab from Admin Tab
     private By enterJobTab = By.xpath("//div/nav/ul/li[2]/span");
-    private By confirmDelete = By.xpath("//div[@class=\"orangehrm-modal-footer\"]/button[2]");
+    private By confirmDelete = By.xpath("//div[@class='orangehrm-modal-footer']/button[2]");
     private By deleteStatus = By.xpath("(//i[contains(@class,'bi-trash')])[1]");
     private By deleteSuccessMsg = By.id("oxd-toaster_1");
-
+    private By sectItem = By.xpath("(//li[.//span[normalize-space()='Job']]//ul//li)[3]");
     public String deleteEmploymentStatus() {
-        sendInput((WebElement) enterJobTab, 2);
+        clickElement(enterJobTab);
+        clickElement(sectItem);
+        WaitHelpers.visibilityOfElement(deleteStatus);
         clickElement(deleteStatus);
         WaitHelpers.visibilityOfElement(confirmDelete);
         clickElement(confirmDelete);
